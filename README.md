@@ -45,7 +45,15 @@ With this statement we can use the idempotent laws to isolate p:
 
 p ∧ p ≡ p
 
-### 5. ~(p ∧ ~q) ∨ ~(~p ∨ q)
+### 5. (~(p ∧ ~q) ∨ ~(~p ∨ q)) ∧ ~**t**
+
+First we have the negation of a tautology; a contradiction.
+
+(~(p ∧ ~q) ∨ ~(~p ∨ q)) ∧ ~**t** ≡ (~(p ∧ ~q) ∨ ~(~p ∨ q)) ∧ **c**
+
+We can now see, as in the same as #2, we can use the universal bound laws to isolate the contradiction:
+
+(~(p ∧ ~q) ∨ ~(~p ∨ q)) ∧ **c** ≡ **c**
 
 ### 6. (~p ∧ ~q) ∨ (~p ∨ q)
 
