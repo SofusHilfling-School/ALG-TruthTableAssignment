@@ -55,9 +55,33 @@ We can now see, as in the same as #2, we can use the universal bound laws to iso
 
 (~(p ∧ ~q) ∨ ~(~p ∨ q)) ∧ **c** ≡ **c**
 
-### 6. (~p ∧ ~q) ∨ (~p ∨ q)
+### 6. ~p ∨ (p ∧ (p ∨ ~p))
 
-### 7. (~p ∧ ~q) ∨ (~p ∨ q)
+We start by using the negation laws:
+
+~p ∨ (p ∧ (p ∨ ~p)) ≡ ~p ∨ (p ∧ **t**)
+
+We now use the identity law to isolate p inside the parentethese:
+
+~p ∨ (p ∧ **t**) ≡ ~p ∨ p
+
+And finally we use the negation laws once again:
+
+~p ∨ p ≡ **t**
+
+### 7. p ∧ (q ∨ ~p)
+
+First we use the distributive laws:
+
+p ∧ (q ∨ ~p) ≡ (p ∧ q) ∨ (p ∧ ~p)
+
+We can now use the universal bound laws:
+
+(p ∧ q) ∨ (p ∧ ~p) ≡ (p ∧ q) ∨ **c**
+
+And finally we can use the identity laws:
+
+(p ∧ q) ∨ **c** ≡ p ∧ q
 
 ### 8. (~p ∧ ~q) ∨ (~p ∨ q)
 
