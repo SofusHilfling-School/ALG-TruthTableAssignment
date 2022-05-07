@@ -12,7 +12,7 @@ For this task we have made up 10 examples of statements that we will simplify us
 
 We start by applying DeMorgan's law:
 
-~(p ∧ ~q) ∨ p ≡ ~p ∨ ~~q ∨ p
+~(p ∧ ~q) ∨ p ≡ ~p ∨ ~(~q) ∨ p
 
 Applying the double negative law doesnt really matter, as we can see that we can actually just apply the negation law to finish the simplification:
 
@@ -83,7 +83,19 @@ And finally we can use the identity laws:
 
 (p ∧ q) ∨ **c** ≡ p ∧ q
 
-### 8. (~p ∧ ~q) ∨ (~p ∨ q)
+### 8. ∼(p ∨ t)
+
+We first use De Morgan's law:
+
+∼(p ∨ t) ≡ ∼p ∧ **∼t**
+
+We then use the negation of a tautology:
+
+∼p ∧ **∼t** ≡ ∼p ∧ **c**
+
+To which we then can use the universal bound laws:
+
+∼p ∧ **c** ≡ **c**
 
 ### 9. (~p ∧ ~q) ∨ (~p ∨ q)
 
