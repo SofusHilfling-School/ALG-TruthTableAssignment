@@ -97,6 +97,39 @@ To which we then can use the universal bound laws:
 
 ∼p ∧ **c** ≡ **c**
 
-### 9. (~p ∧ ~q) ∨ (~p ∨ q)
+### 9. ∼(~p ∧ q) ∨ ~(p ∨ (p ∧ q))
 
-### 10. (~p ∧ ~q) ∨ (~p ∨ q)
+We first start by using De Morgan's law:
+
+∼(~p ∧ q) ∧ ~(p ∨ (p ∧ q)) ≡ (~(∼p) ∨ ∼q) ∧ ~(p ∨ (p ∧ q))
+
+We then use the double negative laws aswell as the absorption laws:
+
+(~(∼p) ∨ ∼q) ∧ ~(p ∨ (p ∧ q)) ≡ (p ∨ ∼q) ∧ ~p
+
+We can then use the distributive law:
+
+(p ∨ ∼q) ∧ ~p ≡ (~p ∧ ~q) ∨ (~p ∧ p)
+
+Then we use the negation laws:
+
+(~p ∧ ~q) ∨ (~p ∧ p) ≡ (~p ∧ ~q) ∨ **c**
+
+To which we finally use the identity laws:
+
+(~p ∧ ~q) ∨ **c** ≡ ~p ∧ ~q
+
+### 10. ~(~p) ∧ (p ∧ (p ∨ ~p)
+
+We start by using the negation laws aswell as double negative: 
+
+~(~p) ∧ (p (p ∨ ~p) ≡ p ∧ (p ∧ **t**)
+
+We then use identity laws:
+
+p ∧ (p ∧ **t**) ≡ p ∧ p
+
+And then we use the idempotent laws:
+
+p ∧ p ≡ p
+
