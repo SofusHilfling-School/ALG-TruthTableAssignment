@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-
+Console.WriteLine("There must be a space between each operator and the variables. Example: ( q AND p ) OR ( q AND r )");
+Console.WriteLine("Valid list of operators include:\n  - (\n  - )\n  - !, ~\n  - and, &&\n  - or, ||");
 Console.Write("Write statement to print truth table: ");
 string statement = Console.ReadLine() ?? "p AND q";
 
@@ -23,27 +23,22 @@ foreach(string expresssion in variablesAndOperators) {
                 statements.Add(new NormalStatement(varA, varB, op, VarPrintStyle.NoneVar));
             }
             break;
+        case "!":
         case "~": 
             operations.Push(Operators.NOT);
             break;
+        case "&&":
+        case "and":
         case "AND": 
             operations.Push(Operators.AND);
             break;
+        case "||":
+        case "or":
         case "OR": 
             operations.Push(Operators.OR);
             break;
         default: {
             variables.Add(expresssion);
-
-            
-                // else if(nextOperator != Operators.PARA){
-                //     operations.Pop();
-                //     Operators op = operations.Pop();
-                //     string varA = statements[^2].ToString()!;
-                //     string varB = statements[^1].ToString()!;
-                //     Statement s = new ArgumentStatement(varA, varB, op);
-                //     statements.Add(s);
-                // }
 
             if(operations.Any() && operations.Peek() == Operators.NOT)
                 statements.Add(new SingleVarStatement(expresssion, operations.Pop()));
@@ -62,8 +57,7 @@ foreach(string expresssion in variablesAndOperators) {
             else {
                 Operators op = operations.Pop();
                 string previous = previousVariable.Pop();
-                statements.Add(new NormalStatement(previous, expresssion, op, VarPrintStyle.BothVar));          
-                
+                statements.Add(new NormalStatement(previous, expresssion, op, VarPrintStyle.BothVar));           
             }
             break;
         }
