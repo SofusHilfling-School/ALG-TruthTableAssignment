@@ -1,77 +1,85 @@
 ﻿// See https://aka.ms/new-console-template for more information
 Console.WriteLine("There must be a space between each operator and the variables. Example: ( q AND p ) OR ( q AND r )");
 Console.WriteLine("Valid list of operators include:\n  - (\n  - )\n  - !, ~\n  - and, &&\n  - or, ||");
-Console.Write("Write statement to print truth table: ");
-string statement = Console.ReadLine() ?? "p AND q";
+Console.WriteLine("To quit at any time press 'CTRL + C'.");
+while(true){
+    Console.Write("Write statement to print truth table: ");
+    string userInputStatement = Console.ReadLine() ?? "p AND q";
 
-List<Statement> statements = new();
-List<string> variables = new();
-Stack<Operators> operations = new();
-Stack<string> previousVariable = new();
-string[] variablesAndOperators = statement.Split(' ');
-foreach(string expresssion in variablesAndOperators) {
-    switch(expresssion)  {
-        case "(": 
-            operations.Push(Operators.PARA);
-            break;
-        case ")": 
-            operations.Pop();
-            if(operations.Any() && operations.Peek() != Operators.PARA && statements.Count >= 2){
-                Operators op = operations.Pop();
-                string varA = statements[^2].ToString()!;
-                string varB = statements[^1].ToString()!;
-                statements.Add(new NormalStatement(varA, varB, op, VarPrintStyle.NoneVar));
-            }
-            break;
-        case "!":
-        case "~": 
-            operations.Push(Operators.NOT);
-            break;
-        case "&&":
-        case "and":
-        case "AND": 
-            operations.Push(Operators.AND);
-            break;
-        case "||":
-        case "or":
-        case "OR": 
-            operations.Push(Operators.OR);
-            break;
-        default: {
-            variables.Add(expresssion);
+    var result = ParseUserInput(userInputStatement);
+    PrintTruthTable(result.Variables, result.Statements);
+    Console.WriteLine();
+}
 
-            if(operations.Any() && operations.Peek() == Operators.NOT)
-                statements.Add(new SingleVarStatement(expresssion, operations.Pop()));
-            else if (!previousVariable.Any()){
-                if(operations.Any() && operations.Peek() != Operators.PARA){
+
+(IEnumerable<string> Variables, IEnumerable<Statement> Statements) ParseUserInput(string userInput){
+    List<Statement> statements = new();
+    List<string> variables = new();
+    Stack<Operators> operations = new();
+    Stack<string> previousVariable = new();
+    string[] variablesAndOperators = userInput.Split(' ');
+    foreach(string expresssion in variablesAndOperators) {
+        switch(expresssion)  {
+            case "(": 
+                operations.Push(Operators.PARA);
+                break;
+            case ")": 
+                operations.Pop();
+                if(operations.Any() && operations.Peek() != Operators.PARA && statements.Count >= 2){
                     Operators op = operations.Pop();
-                    string varA = statements[^1].ToString()!;
-                    statements.Add(new NormalStatement(varA, expresssion, op, VarPrintStyle.EndVar));
-                } else {
+                    string varA = statements[^2].ToString()!;
+                    string varB = statements[^1].ToString()!;
+                    statements.Add(new NormalStatement(varA, varB, op, VarPrintStyle.NoneVar));
+                }
+                break;
+            case "!":
+            case "~": 
+                operations.Push(Operators.NOT);
+                break;
+            case "&&":
+            case "and":
+            case "AND": 
+                operations.Push(Operators.AND);
+                break;
+            case "||":
+            case "or":
+            case "OR": 
+                operations.Push(Operators.OR);
+                break;
+            default: {
+                variables.Add(expresssion);
+
+                if(operations.Any() && operations.Peek() == Operators.NOT)
+                    statements.Add(new SingleVarStatement(expresssion, operations.Pop()));
+                else if (!previousVariable.Any()){
+                    if(operations.Any() && operations.Peek() != Operators.PARA){
+                        Operators op = operations.Pop();
+                        string varA = statements[^1].ToString()!;
+                        statements.Add(new NormalStatement(varA, expresssion, op, VarPrintStyle.EndVar));
+                    } else {
+                        previousVariable.Push(expresssion);
+                    }
+                }
+                else if (operations.Any() && operations.Peek() == Operators.PARA){
                     previousVariable.Push(expresssion);
                 }
+                else {
+                    Operators op = operations.Pop();
+                    string previous = previousVariable.Pop();
+                    statements.Add(new NormalStatement(previous, expresssion, op, VarPrintStyle.BothVar));           
+                }
+                break;
             }
-            else if (operations.Any() && operations.Peek() == Operators.PARA){
-                previousVariable.Push(expresssion);
-            }
-            else {
-                Operators op = operations.Pop();
-                string previous = previousVariable.Pop();
-                statements.Add(new NormalStatement(previous, expresssion, op, VarPrintStyle.BothVar));           
-            }
-            break;
+                
         }
-            
     }
-}
-if(operations.TryPop(out Operators missingOp) && previousVariable.TryPop(out string? missingVar)){
-    string varB = statements[^1].ToString()!;
-    statements.Add(new NormalStatement(missingVar, varB, missingOp, VarPrintStyle.StartVar));
-}
+    if(operations.TryPop(out Operators missingOp) && previousVariable.TryPop(out string? missingVar)){
+        string varB = statements[^1].ToString()!;
+        statements.Add(new NormalStatement(missingVar, varB, missingOp, VarPrintStyle.StartVar));
+    }
 
-variables = variables.Distinct().ToList();
-PrintTruthTable(variables, statements);
-
+    return (variables.Distinct(), statements);
+}
 
 void PrintTruthTable(IEnumerable<string> variables, IEnumerable<Statement> statements){
     List<string> headers = new List<string>();
@@ -100,8 +108,6 @@ void PrintTruthTable(IEnumerable<string> variables, IEnumerable<Statement> state
         }
         Console.WriteLine();
     }
-    
-
 }
 
 List<List<bool>> GetTruthValuesForVariables(int variableCount)
